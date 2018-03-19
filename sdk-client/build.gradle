@@ -1,4 +1,5 @@
 apply plugin: 'com.android.library'
+apply plugin: 'com.novoda.bintray-release'
 
 android {
     compileSdkVersion 26
@@ -18,7 +19,19 @@ android {
         }
     }
 
+    lintOptions {
+        abortOnError false
+    }
+}
 
+publish {
+    repoName        = 'icebox'
+    desc            = 'Ice Box SDK'
+    website         = 'https://github.com/heruoxin/IceBox-SDK'
+    userOrg         = 'heruoxin'
+    groupId         = 'com.catchingnow.icebox'
+    artifactId      = 'SDK'
+    publishVersion  = '1.0.0'
 }
 
 dependencies {
