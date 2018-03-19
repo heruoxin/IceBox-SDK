@@ -1,0 +1,12 @@
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+          package="com.catchingnow.icebox.sdk_client">
+    <uses-permission android:name="com.catchingnow.icebox.SDK"/>
+
+    <application>
+        <receiver android:name=".StateReceiver">
+            <intent-filter>
+                <action android:name="com.catchingnow.icebox.SDK_STATE"/>
+            </intent-filter>
+        </receiver>
+    </application>
+</manifest>
