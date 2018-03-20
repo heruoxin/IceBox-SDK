@@ -4,7 +4,6 @@ import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.HandlerThread;
-import android.os.Process;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v7.app.AppCompatActivity;
@@ -59,7 +58,7 @@ public class MainActivity extends AppCompatActivity {
     private void freeze() {
         // 冻结，同样记得异步哦
         mBackgroundHandler.post(() -> {
-            IceBox.setAppEnabledSettings(this, false, Process.myUserHandle().hashCode(), TEST_PACKAGE);
+            IceBox.setAppEnabledSettings(this, false, TEST_PACKAGE);
 
             Toast.makeText(this, "Frozen", Toast.LENGTH_SHORT).show();
         });
@@ -68,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
     private void defrost() {
         // 解冻，还是得记得异步哦
         mBackgroundHandler.post(() -> {
-            IceBox.setAppEnabledSettings(this, true, Process.myUserHandle().hashCode(), TEST_PACKAGE);
+            IceBox.setAppEnabledSettings(this, true, TEST_PACKAGE);
 
             Toast.makeText(this, "Defrosted", Toast.LENGTH_SHORT).show();
         });

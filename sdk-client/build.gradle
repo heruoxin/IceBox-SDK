@@ -8,7 +8,7 @@ android {
         minSdkVersion 14
         targetSdkVersion 26
         versionCode 1
-        versionName "1.0"
+        versionName "1.0.1"
 
     }
 
@@ -31,9 +31,10 @@ publish {
     userOrg         = 'heruoxin'
     groupId         = 'com.catchingnow.icebox'
     artifactId      = 'SDK'
-    publishVersion  = '1.0.0'
+    publishVersion  = '1.0.1'
 }
 
 dependencies {
+    implementation 'com.android.support:support-annotations:26.1.0'
 
 }
