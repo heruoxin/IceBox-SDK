@@ -1,6 +1,6 @@
 # IceBox-SDK
 
-冰箱的 SDK，可以在已安装并启用了冰箱的设备上，为 App 提供冻结/解冻的功能。
+冰箱 SDK，可以在已安装并启用了冰箱的设备上，为第三方 App 提供冻结/解冻的功能。
 
 需要最新版本冰箱（版本号大于等于 3.6.0）支持。
 
@@ -47,7 +47,7 @@ IceBox.getAppEnabledSetting(applicationInfo);
 ```
 
 
-冻结/解冻 App，支持多个
+冻结/解冻 App，支持批量
 ```java
  IceBox.setAppEnabledSettings(getContext(), false, PACKAGE_NAME...);
 ```
