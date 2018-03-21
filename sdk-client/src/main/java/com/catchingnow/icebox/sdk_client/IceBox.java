@@ -8,6 +8,7 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Process;
 import android.support.annotation.IntDef;
+import android.support.annotation.RequiresPermission;
 import android.support.annotation.WorkerThread;
 
 /**
@@ -21,9 +22,10 @@ public class IceBox {
     public static final String PACKAGE_NAME = "com.catchingnow.icebox";
 
     // 最低支持 SDK 的冰箱 apk 版本号
-    public static final int AVAILABLE_VERSION_CODE = 700;
+    public static final int AVAILABLE_VERSION_CODE = 703;
 
     private static final Uri SDK_URI = Uri.parse("content://com.catchingnow.icebox.SDK");
+    private static final Uri STATE_URI = Uri.parse("content://com.catchingnow.icebox.STATE");
 
     public enum WorkMode {
         MODE_PM_DISABLE_USER,
@@ -34,16 +36,17 @@ public class IceBox {
     /**
      * 查询冰箱的工作模式
      *
+     * 查询不需要权限
+     *
      * @param context context
      * @return 如果是使用的 pm disable-user 模式，则返回 MODE_PM_DISABLE_USER，pm hide 则返回 MODE_PM_HIDE
      * 不可用则返回 MODE_NOT_AVAILABLE
      */
-    @WorkerThread
     public static WorkMode queryWorkMode(Context context) {
         Bundle extra = new Bundle();
         extra.putParcelable("authorize", AuthorizeUtil.getAuthorizedPI(context));
         try {
-            Bundle bundle = context.getContentResolver().call(SDK_URI, "query_mode", null, extra);
+            Bundle bundle = context.getContentResolver().call(STATE_URI, "query_mode", null, extra);
             return WorkMode.valueOf(bundle.getString("work_mode", WorkMode.MODE_NOT_AVAILABLE.name()));
         } catch (Exception e) {
             e.printStackTrace();
@@ -96,6 +99,7 @@ public class IceBox {
      * @param enable true for 解冻，false for 冻结
      */
     @WorkerThread
+    @RequiresPermission(PERMISSION)
     public static void setAppEnabledSettings(Context context, boolean enable, String... packageNames) {
         int userHandle;
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.JELLY_BEAN_MR1) {
@@ -107,6 +111,7 @@ public class IceBox {
     }
 
     @WorkerThread
+    @RequiresPermission(PERMISSION)
     private static void setAppEnabledSettings(Context context, boolean enable, int userHandle, String... packageNames) {
         Bundle extra = new Bundle();
         extra.putParcelable("authorize", AuthorizeUtil.getAuthorizedPI(context));

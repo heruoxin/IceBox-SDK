@@ -42,21 +42,12 @@ public class MainActivity extends AppCompatActivity {
             ActivityCompat.requestPermissions(this, new String[]{IceBox.PERMISSION}, 0x233);
         }
 
-        // 查询工作模式，记得异步哦
-        mBackgroundHandler.post(() -> {
-            try {
-                IceBox.WorkMode workMode = IceBox.queryWorkMode(this);
-                mWorkModeTextView.post(() -> {
-                    mWorkModeTextView.setText(workMode.toString());
-                });
-            } catch (Exception e) {
-                e.printStackTrace();
-            }
-        });
+        IceBox.WorkMode workMode = IceBox.queryWorkMode(this);
+        mWorkModeTextView.setText(workMode.toString());
     }
 
     private void freeze() {
-        // 冻结，同样记得异步哦
+        // 冻结，记得异步哦
         mBackgroundHandler.post(() -> {
             IceBox.setAppEnabledSettings(this, false, TEST_PACKAGE);
 
@@ -65,7 +56,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void defrost() {
-        // 解冻，还是得记得异步哦
+        // 解冻，同样记得异步哦
         mBackgroundHandler.post(() -> {
             IceBox.setAppEnabledSettings(this, true, TEST_PACKAGE);
 
