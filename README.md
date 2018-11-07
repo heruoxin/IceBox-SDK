@@ -6,7 +6,7 @@
 
 ## 使用方法
 
-#### 依赖
+### 依赖
 
 添加依赖，在 app 下的 build.gradle 文件中：
 
@@ -20,13 +20,13 @@ repositories {
 dependencies {
     ......
     ......
-    implementation 'com.catchingnow.icebox:SDK:1.0.2'
+    implementation 'com.catchingnow.icebox:SDK:1.0.5'
 }
 ```
 
-#### 请求权限
+### 请求权限
 
-在 Android 6.0+ 设备上，冰箱 SDK 的部分接口需要先请求权限再使用。
+在 Android 6.0+ 设备上，冰箱 SDK 的部分接口（冻结/安装 APK）需要先请求权限再使用。
 
 ```java
  if (ContextCompat.checkSelfPermission(this, IceBox.PERMISSION) != PackageManager.PERMISSION_GRANTED) {
@@ -34,7 +34,9 @@ dependencies {
  }
 ```
 
-#### 调用接口
+### 调用接口
+
+#### 冻结解冻相关接口
 
 ##### 查询工作模式
 
@@ -61,5 +63,45 @@ IceBox.getAppEnabledSetting(applicationInfo);
 ```java
  IceBox.setAppEnabledSettings(getContext(), enable, PACKAGE_NAME...);
 ```
+
+#### 静默安装卸载相关接口
+
+当冰箱运行在设备管理员（俗称免 Root）模式下时，可对外提供静默安装和卸载 APK 的接口。
+
+##### 查询是否支持
+
+```java
+ IceBox.querySupportSilentInstall(context);
+```
+
+返回为一个枚举类型
+
+```java
+
+    public enum SilentInstallSupport {
+        SUPPORTED,
+
+        NOT_INSTALLED,          //未安装冰箱 IceBox;
+        UPDATE_REQUIRED,        //冰箱 IceBox 版本过低;
+        SYSTEM_NOT_SUPPORTED,   //当前系统版本过低，不支持静默安装;
+        NOT_DEVICE_OWNER,       //冰箱 IceBox 不是设备管理员;
+        PERMISSION_REQUIRED,    //当前 App 未取得权限，请发起标准的 Android 权限请求;
+    }
+```
+
+##### 安装/卸载 APK
+
+在冰箱支持的前提下，可以调用实现静默安装卸载，无需用户确认。方法均为同步，直到安装完成或失败后才会返回。
+
+安装成功后通知栏会由系统发送通知提示，同时冰箱的 SDK 日志页面中也会留存记录。
+
+```java
+// 安装
+IceBox.installPackage(context, uriToApk);
+
+// 卸载
+IceBox.uninstallPackage(context, packageName);
+```
+
 
 更详细的代码示例可见 demo app。

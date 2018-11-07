@@ -2,4 +2,5 @@
     <string name="app_name">Install app</string>
     <string name="request_permission">Request</string>
     <string name="permission_state">IceBox SDK:\n%1$s\n\nWRITE_EXTERNAL_STORAGE:\n%2$s</string>
+    <string name="btn_uninstall">Uninstall</string>
 </resources>

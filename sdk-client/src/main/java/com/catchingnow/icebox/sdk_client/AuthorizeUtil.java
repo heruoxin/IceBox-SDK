@@ -4,6 +4,8 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 
+import com.catchingnow.icebox.sdk_client.StateReceiver;
+
 class AuthorizeUtil {
 
     private static PendingIntent authorizePendingIntent = null;

@@ -4,14 +4,18 @@
         xmlns:tools="http://schemas.android.com/tools">
 
     <data>
-        <variable
-            name="path"
-            type="String"/>
+
         <variable
             name="icebox_state"
             type="String"/>
         <variable
             name="sdcard_state"
+            type="String"/>
+        <variable
+            name="path"
+            type="String"/>
+        <variable
+            name="packagename"
             type="String"/>
 
     </data>
@@ -27,8 +31,9 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="@{@string/permission_state(icebox_state, sdcard_state)}"
+            android:layout_marginBottom="32dp"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@id/input"
+            app:layout_constraintBottom_toTopOf="@id/input_path"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toLeftOf="@id/btn_request"
             app:layout_constraintHorizontal_chainStyle="spread"
@@ -47,7 +52,7 @@
             android:layout_height="wrap_content"/>
 
         <EditText
-            android:id="@+id/input"
+            android:id="@+id/input_path"
             tools:text="/sdcard/1.apk"
             android:text="@={path}"
             android:maxLines="3"
@@ -66,11 +71,33 @@
             android:text="Install"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/input"
-            app:layout_constraintBottom_toBottomOf="parent"
-            android:layout_marginTop="32dp"
+            app:layout_constraintTop_toBottomOf="@id/input_path"
+            app:layout_constraintBottom_toTopOf="@id/input_pn"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"/>
+
+        <EditText
+            android:id="@+id/input_pn"
+            tools:text="com.some.app"
+            android:text="@={packagename}"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/btn_install"
+            app:layout_constraintBottom_toTopOf="@id/btn_uninstall"
+            android:layout_marginTop="72dp"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"/>
+
+        <Button
+            android:id="@+id/btn_uninstall"
+            android:text="@string/btn_uninstall"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/input_pn"/>
 
     </android.support.constraint.ConstraintLayout>
 </layout>

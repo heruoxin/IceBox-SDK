@@ -33,7 +33,9 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         mBinding.setPath("/sdcard/1.apk");
-        mBinding.btnInstall.setOnClickListener(v -> installApk(mBinding.getPath()));
+        mBinding.setPackagename("com.some.app");
+        mBinding.btnInstall.setOnClickListener(v -> installApp(mBinding.getPath()));
+        mBinding.btnUninstall.setOnClickListener(v -> uninstallApp(mBinding.getPackagename()));
         mBinding.btnRequest.setOnClickListener(v -> requestPermission());
     }
 
@@ -52,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if (mSubscribe != null && !mSubscribe.isDisposed()) mSubscribe.dispose();
+        disposeSafety();
     }
 
     private void requestPermission() {
@@ -62,22 +64,38 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private void updatePermissionState() {
-        IceBox.SilentInstallState state = IceBox.querySupportSilentInstall(this);
+        IceBox.SilentInstallSupport state = IceBox.querySupportSilentInstall(this);
         mBinding.setIceboxState(state.toString());
 
         int permission = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
         mBinding.setSdcardState(permission == PackageManager.PERMISSION_GRANTED ? "PERMISSION_GRANTED" : "PERMISSION_DENIED");
     }
 
-    private void installApk(String path) {
+    private void installApp(String path) {
         String authority = getPackageName() + ".FILE_PROVIDER";
         Uri uri = FileProvider.getUriForFile(this, authority, new File(path));
+        disposeSafety();
         mSubscribe = Single.fromCallable(() -> IceBox.installPackage(this, uri))
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(success -> {
                     Toast.makeText(this, success ? "安装成功" : "安装失败", Toast.LENGTH_SHORT).show();
                 }, Throwable::printStackTrace);
+    }
+
+    private void uninstallApp(String packageName) {
+        disposeSafety();
+        mSubscribe = Single.fromCallable(() -> IceBox.uninstallPackage(this, packageName))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(success -> {
+                    Toast.makeText(this, packageName + (success ? " 卸载成功" : " 卸载失败"), Toast.LENGTH_SHORT).show();
+                }, Throwable::printStackTrace);
+    }
+
+    private void disposeSafety() {
+        if (mSubscribe != null && !mSubscribe.isDisposed()) mSubscribe.dispose();
+        mSubscribe = null;
     }
 
 }
