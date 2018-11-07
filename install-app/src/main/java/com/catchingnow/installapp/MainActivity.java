@@ -1,8 +1,14 @@
 package com.catchingnow.installapp;
 
+import android.Manifest;
+import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.databinding.DataBindingUtil;
 import android.net.Uri;
 import android.os.Bundle;
+import android.support.annotation.Nullable;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.content.FileProvider;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
@@ -28,18 +34,19 @@ public class MainActivity extends AppCompatActivity {
         mBinding = DataBindingUtil.setContentView(this, R.layout.activity_main);
         mBinding.setPath("/sdcard/1.apk");
         mBinding.btnInstall.setOnClickListener(v -> installApk(mBinding.getPath()));
-
+        mBinding.btnRequest.setOnClickListener(v -> requestPermission());
     }
 
-    private void installApk(String path) {
-        String authority = getPackageName() + ".FILE_PROVIDER";
-        Uri uri = FileProvider.getUriForFile(this, authority, new File(path));
-        mSubscribe = Single.fromCallable(() -> IceBox.silentInstallPackage(this, uri))
-                .subscribeOn(Schedulers.io())
-                .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(success -> {
-                    Toast.makeText(this, success ? "安装成功" : "安装失败", Toast.LENGTH_SHORT).show();
-                }, Throwable::printStackTrace);
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        updatePermissionState();
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        updatePermissionState();
     }
 
     @Override
@@ -47,4 +54,30 @@ public class MainActivity extends AppCompatActivity {
         super.onDestroy();
         if (mSubscribe != null && !mSubscribe.isDisposed()) mSubscribe.dispose();
     }
+
+    private void requestPermission() {
+        ActivityCompat.requestPermissions(this,
+                new String[]{IceBox.SDK_PERMISSION, Manifest.permission.WRITE_EXTERNAL_STORAGE},
+                0x233);
+    }
+
+    private void updatePermissionState() {
+        IceBox.SilentInstallState state = IceBox.querySupportSilentInstall(this);
+        mBinding.setIceboxState(state.toString());
+
+        int permission = ContextCompat.checkSelfPermission(this, Manifest.permission.WRITE_EXTERNAL_STORAGE);
+        mBinding.setSdcardState(permission == PackageManager.PERMISSION_GRANTED ? "PERMISSION_GRANTED" : "PERMISSION_DENIED");
+    }
+
+    private void installApk(String path) {
+        String authority = getPackageName() + ".FILE_PROVIDER";
+        Uri uri = FileProvider.getUriForFile(this, authority, new File(path));
+        mSubscribe = Single.fromCallable(() -> IceBox.installPackage(this, uri))
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(success -> {
+                    Toast.makeText(this, success ? "安装成功" : "安装失败", Toast.LENGTH_SHORT).show();
+                }, Throwable::printStackTrace);
+    }
+
 }

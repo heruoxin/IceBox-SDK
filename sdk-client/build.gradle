@@ -1,14 +1,14 @@
 apply plugin: 'com.android.library'
-apply plugin: 'com.novoda.bintray-release'
+apply plugin: "guru.stefma.bintrayrelease"
 
 android {
-    compileSdkVersion 26
+    compileSdkVersion 28
 
     defaultConfig {
         minSdkVersion 14
-        targetSdkVersion 26
-        versionCode 2
-        versionName "1.0.2"
+        targetSdkVersion 28
+        versionCode 3
+        versionName "1.0.3"
 
     }
 
@@ -24,17 +24,19 @@ android {
     }
 }
 
+version = "1.0.3"
+group = 'com.catchingnow.icebox'
+androidArtifact { // 2
+    artifactId = "SDK"
+}
 publish {
     repoName        = 'icebox'
     desc            = 'Ice Box SDK'
     website         = 'https://github.com/heruoxin/IceBox-SDK'
     userOrg         = 'heruoxin'
-    groupId         = 'com.catchingnow.icebox'
-    artifactId      = 'SDK'
-    publishVersion  = '1.0.2'
 }
 
 dependencies {
-    implementation 'com.android.support:support-annotations:26.1.0'
+    compileOnly 'com.android.support:support-annotations:28.0.0'
 
 }

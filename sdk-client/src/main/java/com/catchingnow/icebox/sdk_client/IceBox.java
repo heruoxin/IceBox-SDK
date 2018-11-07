@@ -129,10 +129,10 @@ public class IceBox {
     public enum SilentInstallState {
         STATE_SUPPORT,
 
-        STATE_NOT_INSTALLED,        //未安装冰箱 IceBox;1
+        STATE_NOT_INSTALLED,        //未安装冰箱 IceBox;
         STATE_SYSTEM_NOT_SUPPORT,   //当前系统版本不支持静默安装;
         STATE_NOT_DEVICE_OWNER,     //冰箱 IceBox 不是设备管理员;
-        STATE_UPDATE_REQUIRED,      //冰箱 IceBox 版本过低;1
+        STATE_UPDATE_REQUIRED,      //冰箱 IceBox 版本过低;
         STATE_PERMISSION_REQUIRED,  //当前 App 未取得权限;
     }
 
@@ -165,7 +165,7 @@ public class IceBox {
      */
     @WorkerThread
     @RequiresPermission(SDK_PERMISSION)
-    public static boolean silentInstallPackage(Context context, Uri apkUri) {
+    public static boolean installPackage(Context context, Uri apkUri) {
         final AtomicBoolean o = new AtomicBoolean();
         ResultReceiver resultReceiver = ResultReceiverUtil.receiverForSending(new ResultReceiver(new Handler(Looper.getMainLooper())) {
             @Override
