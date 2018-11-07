@@ -13,7 +13,7 @@ import android.widget.Toast;
 import com.catchingnow.icebox.sdk_client.IceBox;
 import com.catchingnow.iceboxsdktestapp.R;
 
-public class MainActivity extends AppCompatActivity {
+public class FreezeActivity extends AppCompatActivity {
 
     // 测试包名随便写
     private static final String TEST_PACKAGE = "com.supercell.clashroyale";
@@ -38,8 +38,8 @@ public class MainActivity extends AppCompatActivity {
         super.onResume();
         // 如果没有权限，则先请求权限
         // 走的标准系统流程
-        if (ContextCompat.checkSelfPermission(this, IceBox.PERMISSION) != PackageManager.PERMISSION_GRANTED) {
-            ActivityCompat.requestPermissions(this, new String[]{IceBox.PERMISSION}, 0x233);
+        if (ContextCompat.checkSelfPermission(this, IceBox.SDK_PERMISSION) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{IceBox.SDK_PERMISSION}, 0x233);
         }
 
         IceBox.WorkMode workMode = IceBox.queryWorkMode(this);

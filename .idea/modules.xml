@@ -3,7 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/IceBoxSDK.iml" filepath="$PROJECT_DIR$/IceBoxSDK.iml" />
-      <module fileurl="file://$PROJECT_DIR$/app/app.iml" filepath="$PROJECT_DIR$/app/app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/freeze-app/freeze-app.iml" filepath="$PROJECT_DIR$/freeze-app/freeze-app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/install-app/install-app.iml" filepath="$PROJECT_DIR$/install-app/install-app.iml" />
       <module fileurl="file://$PROJECT_DIR$/sdk-client/sdk-client.iml" filepath="$PROJECT_DIR$/sdk-client/sdk-client.iml" />
     </modules>
   </component>

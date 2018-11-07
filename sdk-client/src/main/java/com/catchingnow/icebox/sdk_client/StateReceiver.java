@@ -4,10 +4,6 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 
-/**
- * @author heruoxin @ Zhihu Inc.
- * @since 2018/3/19
- */
 public class StateReceiver extends BroadcastReceiver {
     @Override
     public void onReceive(Context context, Intent intent) {

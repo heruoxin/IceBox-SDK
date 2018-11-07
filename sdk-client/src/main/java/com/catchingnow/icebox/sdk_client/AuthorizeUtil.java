@@ -4,7 +4,7 @@ import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
 
-public class AuthorizeUtil {
+class AuthorizeUtil {
 
     private static PendingIntent authorizePendingIntent = null;
     static PendingIntent getAuthorizedPI(Context context) {

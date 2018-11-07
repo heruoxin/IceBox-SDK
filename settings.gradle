@@ -1,1 +1,1 @@
-include ':app', ':sdk-client'
+include ':freeze-app', ':sdk-client', ':install-app'
