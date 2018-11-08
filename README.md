@@ -2,7 +2,9 @@
 
 冰箱 SDK，可以在已安装并启用了冰箱的设备上，为第三方 App 提供冻结/解冻的功能。
 
-需要最新版本冰箱（版本号大于等于 3.6.0）支持。
+冻结/解冻需要冰箱版本号 >= 3.6.0；
+
+静默安装需要冰箱版本号 >= 3.9.5。
 
 ## 使用方法
 
@@ -26,7 +28,7 @@ dependencies {
 
 ### 请求权限
 
-在 Android 6.0+ 设备上，冰箱 SDK 的部分接口（冻结/安装 APK）需要先请求权限再使用。
+在 Android 6.0+ 设备上，冰箱 SDK 的操作类接口（冻结/安装 APK）需要先请求权限再使用，查询类的接口都不需要。
 
 ```java
  if (ContextCompat.checkSelfPermission(this, IceBox.PERMISSION) != PackageManager.PERMISSION_GRANTED) {
@@ -91,7 +93,7 @@ IceBox.getAppEnabledSetting(applicationInfo);
 
 ##### 安装/卸载 APK
 
-在冰箱支持的前提下，可以调用实现静默安装卸载，无需用户确认。方法均为同步，直到安装完成或失败后才会返回。
+在冰箱支持，并且用户授权了的前提下，可以调用实现静默安装卸载，无需用户确认。方法均为同步，直到安装完成或失败后才会返回。
 
 安装成功后通知栏会由系统发送通知提示，同时冰箱的 SDK 日志页面中也会留存记录。
 
@@ -105,3 +107,6 @@ IceBox.uninstallPackage(context, packageName);
 
 
 更详细的代码示例可见 demo app。
+
+<img src="/screenshot/screenshot_freeze.png?raw=true" width="320">
+<img src="/screenshot/screenshot_install.png?raw=true" width="320">
