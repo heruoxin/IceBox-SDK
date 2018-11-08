@@ -106,7 +106,11 @@ IceBox.uninstallPackage(context, packageName);
 ```
 
 
-更详细的代码示例可见 demo app。
+更详细的代码示例可见 [冻结解冻 Demo][1] 和 [静默安装 Demo][2]。
 
 <img src="/screenshot/screenshot_freeze.png?raw=true" width="320">
 <img src="/screenshot/screenshot_install.png?raw=true" width="320">
+
+
+[1]: /freeze-app/src/main/java/com/catchingnow/iceboxsdk/FreezeActivity.java
+[2]: /install-app/src/main/java/com/catchingnow/installapp/MainActivity.java
